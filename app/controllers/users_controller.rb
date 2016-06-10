@@ -14,11 +14,13 @@ class UsersController < ApplicationController
 
   # GET /users/new
   def new
+    @index_user = 0
     @user = User.new
   end
 
   # GET /users/1/edit
   def edit
+    @index_user = 1
   end
 
   # POST /users

@@ -10,15 +10,48 @@
       </ul>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-
-    <%= render 'user_comment_photos/form' %>
-
+  <div>
+    <%= f.label :name, "Write and Style it"%>
+    <%= f.hidden_field :name, html: { id: "name"} %>
+    <% if @index_user == 1 %>
+      <%= content_tag(:div, @user.name.html_safe, class: "editable", :data => {:"field-id" => "name"}, style: "min-height: 100px; margin-right: 30px;") %>
+    <% else %>
+      <div class="editable" data-field-id="name" style="min-height: 100px; margin-right: 30px;">
+      </div>
+    <% end %>
   </div>
+  
+<%= f.submit %>
+<% end %>
 
+<script>
   
 
-<% end %>
+  $(function() {
+    var editor = new MediumEditor('.editable', {
+    toolbar: {
+        /* These are the default options for the toolbar,
+           if nothing is passed this is what is used */
+        allowMultiParagraphSelection: true,
+        buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote'],
+        diffLeft: 0,
+        diffTop: -10,
+        firstButtonClass: 'medium-editor-button-first',
+        lastButtonClass: 'medium-editor-button-last',
+        standardizeSelectionStart: false,
+        static: false,
+        relativeContainer: null,
+        /* options which only apply when static is true */
+        align: 'center',
+        sticky: false,
+        updateOnEmptySelection: false
+      
+      }
+  });
+    $(".editable").bind('input propertychange', function() {
+    $("#user_" + $(this).attr("data-field-id")).val($(this).html());
+    return true;
+    });
+  });
+  
+</script>
